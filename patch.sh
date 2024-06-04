@@ -8,7 +8,7 @@ FILES=(
   "Microsoft365"
 )
 
-mkdir -p $PATCH_DIR
+mkdir -p $ROOT_DIR/mods/org.entcore~auth~$VERSION/fr/goldeduc/auth/
 echo "Directory created."
 
 curl -so /tmp/entcore-common.jar https://maven.opendigitaleducation.com/repository/releases/org/entcore/common/5.1.0/common-5.1.0.jar
@@ -18,7 +18,7 @@ echo "Downloaded dependencies."
 
 for file in ${FILES[@]}; do
   curl -so /tmp/$file.java https://raw.githubusercontent.com/acverne/auth-patch/main/fr/goldeduc/auth/$file.java
-  /usr/lib/jvm/temurin-8-jdk-amd64/bin/javac -cp "$ROOT_DIR/mods/org.entcore~auth~$VERSION-fat.jar:/tmp/entcore-common.jar:/tmp/opensaml.jar:/tmp/vertx-core.jar" -d $PATCH_DIR /tmp/$file.java
+  /usr/lib/jvm/temurin-8-jdk-amd64/bin/javac -cp "$ROOT_DIR/mods/org.entcore~auth~$VERSION-fat.jar:/tmp/entcore-common.jar:/tmp/opensaml.jar:/tmp/vertx-core.jar" -d $ROOT_DIR/mods/org.entcore~auth~$VERSION/ /tmp/$file.java
   echo "$file enabled."
   rm /tmp/$file.java
 done
