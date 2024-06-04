@@ -11,7 +11,7 @@ FILES=(
 mkdir -p $PATCH_DIR
 echo "Directory created."
 
-for file in FILES; do
+for file in ${FILES[@]}; do
   curl -O /tmp/$file.java https://raw.githubusercontent.com/acverne/auth-patch/main/fr/goldeduc/auth/$file.java
   /usr/lib/jvm/temurin-8-jdk-amd64/bin/javac -cp "$ROOT_DIR/mods/org.entcore~auth~$VERSION-fat.jar" -d $PATCH_DIR /tmp/$file.java
   echo "$file enabled."
