@@ -21,7 +21,7 @@ public class GoogleWorkspace extends AbstractSSOProvider {
     String query = "MATCH (u:User {id:{userId}})" +
       "-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:Action)<-[:PROVIDE]-(a:Application) " +
       "WHERE a.address CONTAINS({serviceProviderEntityId}) " +
-      "RETURN DISTINCT u.profiles as profiles, u.email as email";
+      "RETURN DISTINCT u.email as email";
     
     Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId).put("serviceProviderEntityId", serviceProviderEntityId + "/ServiceLogin"), Neo4jResult.validUniqueResultHandler(evt -> {
       if (evt.isLeft()) {
