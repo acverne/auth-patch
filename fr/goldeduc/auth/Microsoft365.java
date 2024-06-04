@@ -18,8 +18,12 @@ public class Microsoft365 extends AbstractSSOProvider {
 
   @Override
   public void generate(EventBus eb, String userId, String host, String serviceProviderEntityId, Handler<Either<String, JsonArray>> handler) {
-    String query = "MATCH (u:User {id:{userId}}) RETURN u.profiles as profiles, u.email as email";
-    Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId), Neo4jResult.validUniqueResultHandler(evt -> {
+    String query = "MATCH (u:User {id:{userId}})" +
+      "-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:Action)<-[:PROVIDE]-(a:Application) " +
+      "WHERE a.address CONTAINS({serviceProviderEntityId}) " +
+      "RETURN DISTINCT u.email as email";
+    
+    Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId).put("serviceProviderEntityId", "https://login.microsoftonline.com/?whr=" + host.replace("https://ent.", "")), Neo4jResult.validUniqueResultHandler(evt -> {
       if (evt.isLeft()) {
         handler.handle(new Either.Left(evt.left().getValue()));
         return;
@@ -27,13 +31,6 @@ public class Microsoft365 extends AbstractSSOProvider {
 
       JsonArray result = new JsonArray();
       JsonObject user = evt.right().getValue();
-      JsonObject profiles = user.getJsonArray("profiles");
-      
-      if (!profiles.contains("Personnel") && !profiles.contains("Teacher")) {
-        handler.handle(new Either.Left<String, Object>("invalid.user.profile"));
-        return;
-      }
-      
       result.add(new JsonObject().put("IDPEmail", user.getString("email", "")));
       handler.handle(new Either.Right<>(result));
     }));
