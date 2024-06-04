@@ -16,7 +16,7 @@ public class Canva extends AbstractSSOProvider {
     handler.handle(new Either.Left<String, Object>("Execute function isn't available on this implementation."));
   }
 
-  public String titleCase(String str) {
+  private String titleCase(String str) {
     String[] arr = str.toLowerCase().split(" ");
     StringBuffer buffer = new StringBuffer();
     for (int i = 0; i < arr.length; i++) {
@@ -38,12 +38,12 @@ public class Canva extends AbstractSSOProvider {
 
       JsonArray result = new JsonArray();
       JsonObject user = evt.right().getValue();
-      JsonObject profiles = user.getJsonArray("profiles");
+      /*JsonObject profiles = user.getJsonArray("profiles");
       
       if (!profiles.contains("Personnel") && !profiles.contains("Teacher")) {
         handler.handle(new Either.Left<String, Object>("invalid.user.profile"));
         return;
-      }
+      }*/
       
       result.add(new JsonObject().put("email", user.getString("email", "")));
       result.add(new JsonObject().put("firstName", this.titleCase(user.getString("firstName"))));
