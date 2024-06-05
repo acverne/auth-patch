@@ -35,7 +35,7 @@ public class Microsoft365 extends AbstractSSOProvider {
 
       JsonArray result = new JsonArray();
       JsonObject user = evt.right().getValue();
-      log.info(user);
+      log.info(host);
 
       result.add(new JsonObject().put("IDPEmail", user.getString("email", "")));
       handler.handle(new Either.Right<>(result));
