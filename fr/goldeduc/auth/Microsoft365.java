@@ -22,7 +22,7 @@ public class Microsoft365 extends AbstractSSOProvider {
 
   @Override
   public void generate(EventBus eb, String userId, String host, String serviceProviderEntityId, Handler<Either<String, JsonArray>> handler) {
-    String query = "MATCH (u:User {id:'a')" +
+    String query = "MATCH (u:User {id:'a'})" +
       "-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:Action)<-[:PROVIDE]-(a:Application) " +
       "WHERE a.address STARTS WITH {serviceProviderEntityId} " +
       "RETURN DISTINCT u.email as email";
