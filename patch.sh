@@ -17,7 +17,7 @@ curl -so /tmp/vertx-core.jar https://repo1.maven.org/maven2/io/vertx/vertx-core/
 echo "Downloaded dependencies."
 
 for file in ${FILES[@]}; do
-  curl -so /tmp/$file.java https://raw.githubusercontent.com/acverne/auth-patch/main/fr/goldeduc/auth/$file.java
+  curl -so /tmp/$file.java https://raw.githubusercontent.com/acverne/auth-patch/main/fr/goldeduc/auth/$file.java?token=$(date +%s)
   /usr/lib/jvm/temurin-8-jdk-amd64/bin/javac -cp "$ROOT_DIR/mods/org.entcore~auth~$VERSION-fat.jar:/tmp/entcore-common.jar:/tmp/opensaml.jar:/tmp/vertx-core.jar" -d $ROOT_DIR/mods/org.entcore~auth~$VERSION/ /tmp/$file.java
   echo "$file enabled."
   rm /tmp/$file.java
