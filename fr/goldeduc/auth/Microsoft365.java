@@ -36,7 +36,7 @@ public class Microsoft365 extends AbstractSSOProvider {
       JsonArray result = new JsonArray();
       JsonObject user = evt.right().getValue();
       if (user == new JsonObject() || user.getString("email") == null) {
-        handler.handle(new Either.Left<String, Object>("invalid.user"));
+        handler.handle(new Either.Left("invalid.user"));
         return;
       }
 
