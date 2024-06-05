@@ -46,7 +46,7 @@ public class Canva extends AbstractSSOProvider {
         return;
       }
       
-      result.add(new JsonObject().put("email", user.getString("email", "")));
+      result.add(new JsonObject().put("email", user.getString("email")));
       result.add(new JsonObject().put("firstName", this.titleCase(user.getString("firstName"))));
       result.add(new JsonObject().put("lastName", this.titleCase(user.getString("lastName"))));
       handler.handle(new Either.Right<>(result));
