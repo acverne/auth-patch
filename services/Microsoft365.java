@@ -20,7 +20,7 @@ public class Microsoft365 extends AbstractSSOProvider {
     String query = "MATCH (u:User {id:{userId}})" +
       "-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:Action)<-[:PROVIDE]-(a:Application) " +
       "WHERE a.address STARTS WITH {serviceProviderEntityId} " +
-      "RETURN DISTINCT u.externalId AS externalId, u.email as email";
+      "RETURN DISTINCT u.email as email";
 
     Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId).put("serviceProviderEntityId", "https://login.microsoftonline.com/?whr=" + host.replace("ent.", "")), Neo4jResult.validUniqueResultHandler(evt -> {
       if (evt.isLeft()) {
@@ -35,7 +35,7 @@ public class Microsoft365 extends AbstractSSOProvider {
         return;
       }
 
-      result.add(new JsonObject().put("NameID", user.getString("externalId")));
+      result.add(new JsonObject().put("NameID", user.getString("email")));
       result.add(new JsonObject().put("IDPEmail", user.getString("email")));
       handler.handle(new Either.Right<>(result));
     }));
