@@ -22,7 +22,7 @@ public class Microsoft365 extends AbstractSSOProvider {
 
   @Override
   public void generate(EventBus eb, String userId, String host, String serviceProviderEntityId, Handler<Either<String, JsonArray>> handler) {
-    String query = "MATCH (u:User {id:'a'})" +
+    String query = "MATCH (u:User {id:{userId}})" +
       "-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:Action)<-[:PROVIDE]-(a:Application) " +
       "WHERE a.address STARTS WITH {serviceProviderEntityId} " +
       "RETURN DISTINCT u.email as email";
@@ -35,9 +35,12 @@ public class Microsoft365 extends AbstractSSOProvider {
 
       JsonArray result = new JsonArray();
       JsonObject user = evt.right().getValue();
-      log.info(user);
+      if (user == new JsonArray() || user.getString("email") == null) {
+        handler.handle(new Either.Left<String, Object>("invalid.user"));
+        return;
+      }
 
-      result.add(new JsonObject().put("IDPEmail", user.getString("email", "")));
+      result.add(new JsonObject().put("IDPEmail", user.getString("email")));
       handler.handle(new Either.Right<>(result));
     }));
   }
