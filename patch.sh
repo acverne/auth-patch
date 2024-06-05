@@ -3,6 +3,7 @@ ROOT_DIR="/home/springboard/springboard"
 VERSION="5.1.0"
 SERVICES=(
   "Canva"
+  "GoogleWorkspace"
   "Microsoft365"
 )
 
