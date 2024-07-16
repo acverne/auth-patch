@@ -31,7 +31,7 @@ public class Canva extends AbstractSSOProvider {
     String query = "MATCH (u:User {id:{userId}})" +
       "-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:Action)<-[:PROVIDE]-(a:Application) " +
       "WHERE a.address STARTS WITH 'https://canva.com/login/sso/' " +
-      "RETURN DISTINCT u.email as email, u.firstName AS firstName, u.lastName as lastName";
+      "RETURN DISTINCT u.email as email, u.firstName as firstName, u.lastName as lastName";
     
     Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId), Neo4jResult.validUniqueResultHandler(evt -> {
       if (evt.isLeft()) {
