@@ -36,6 +36,7 @@ public class GoogleWorkspace extends AbstractSSOProvider {
       }
       
       result.add(new JsonObject().put("NameID", user.getString("email")));
+      result.add(new JsonObject().put("firstName", "test"));
       handler.handle(new Either.Right<>(result));
     }));
   }
