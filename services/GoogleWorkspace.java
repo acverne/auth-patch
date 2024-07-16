@@ -20,7 +20,7 @@ public class GoogleWorkspace extends AbstractSSOProvider {
     String query = "MATCH (u:User {id:{userId}})" +
       "-[:IN]->(:Group)-[:AUTHORIZED]->(:Role)-[:AUTHORIZE]->(:Action)<-[:PROVIDE]-(a:Application) " +
       "WHERE a.address STARTS WITH {serviceProviderEntityId} " +
-      "RETURN DISTINCT u.email as email";
+      "RETURN DISTINCT u.email as email, u.firstName as firstName, u.lastName as lastName";
 
     Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId).put("serviceProviderEntityId", "https://www." + serviceProviderEntityId + "/ServiceLogin"), Neo4jResult.validUniqueResultHandler(evt -> {
       if (evt.isLeft()) {
@@ -36,7 +36,8 @@ public class GoogleWorkspace extends AbstractSSOProvider {
       }
       
       result.add(new JsonObject().put("NameID", user.getString("email")));
-      result.add(new JsonObject().put("firstName", "test"));
+      result.add(new JsonObject().put("firstName", user.getString("firstName")));
+      result.add(new JsonObject().put("lastName", user.getString("lastName")));
       handler.handle(new Either.Right<>(result));
     }));
   }
