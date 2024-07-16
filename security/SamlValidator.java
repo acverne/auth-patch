@@ -565,7 +565,7 @@ public class SamlValidator extends BusModBase implements Handler<Message<JsonObj
 
 		AudienceRestriction audienceRestriction = new AudienceRestrictionBuilder().buildObject();
 		Audience issuerAudience = new AudienceBuilder().buildObject();
-		issuerAudience.setAudienceURI(serviceProvider == "google.com" ? recipient : serviceProvider); // Patched by Micorksen: Set the ACS url if the provider is google.com.
+		issuerAudience.setAudienceURI(serviceProvider.startsWith("google.com/a/") ? recipient : serviceProvider); // Patched by Micorksen: Set the ACS url if the SAML request is from Google Workspace.
 		audienceRestriction.getAudiences().add(issuerAudience);
 
 		conditions.getAudienceRestrictions().add(audienceRestriction);
