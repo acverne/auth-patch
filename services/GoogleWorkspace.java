@@ -22,7 +22,7 @@ public class GoogleWorkspace extends AbstractSSOProvider {
       "WHERE a.address STARTS WITH {serviceProviderEntityId} " +
       "RETURN DISTINCT u.email as email";
 
-    Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId).put("serviceProviderEntityId", "https://www.google.com/a/" + host.replace("ent.", "") + "/ServiceLogin"), Neo4jResult.validUniqueResultHandler(evt -> {
+    Neo4j.getInstance().execute(query, new JsonObject().put("userId", userId).put("serviceProviderEntityId", "https://www." + serviceProviderEntityId + "/ServiceLogin"), Neo4jResult.validUniqueResultHandler(evt -> {
       if (evt.isLeft()) {
         handler.handle(new Either.Left(evt.left().getValue()));
         return;
