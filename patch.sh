@@ -1,13 +1,13 @@
 #!/bin/bash
 ROOT_DIR="/home/springboard/springboard"
-VERSION="5.1.0"
+VERSION="5.3.1"
 SERVICES=(
   "Canva"
   "GoogleWorkspace"
   "Microsoft365"
 )
 
-curl -so /tmp/entcore-common.jar https://maven.opendigitaleducation.com/repository/releases/org/entcore/common/5.1.0/common-5.1.0.jar
+curl -so /tmp/entcore-common.jar https://maven.opendigitaleducation.com/repository/releases/org/entcore/common/$VERSION/common-$VERSION.jar
 curl -so /tmp/opensaml.jar https://repo1.maven.org/maven2/org/opensaml/opensaml/2.6.4/opensaml-2.6.4.jar
 curl -so /tmp/vertx-core.jar https://repo1.maven.org/maven2/io/vertx/vertx-core/3.9.5/vertx-core-3.9.5.jar
 echo "Downloaded 3 dependencies."
