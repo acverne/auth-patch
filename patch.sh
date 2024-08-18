@@ -1,6 +1,6 @@
 #!/bin/bash
 ROOT_DIR="/home/springboard/springboard"
-VERSION="5.3.1"
+VERSION="5.3.2"
 SERVICES=(
   "Canva"
   "GoogleWorkspace"
